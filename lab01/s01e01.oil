@@ -1,0 +1,81 @@
+// s01e01.oil
+OIL_VERSION = "2.5";
+
+IMPLEMENTATION trampoline {
+    TASK {
+        UINT32 STACKSIZE = 32768;
+    } ;
+    ISR {
+        UINT32 STACKSIZE = 32768;
+    } ;
+} ;
+
+CPU s01e01_cpu {
+    OS config {
+        STATUS = EXTENDED;
+        BUILD = TRUE {
+            APP_SRC = "s01e01.c";
+            TRAMPOLINE_BASE_PATH = "/path/to/your/trampoline"; // IMPORTANT: Change this path
+            APP_NAME = "s01e01_exe";
+            SYSTEM = PYTHON;
+        };
+    };
+
+    APPMODE stdAppmode {};
+
+    // Task definitions
+    TASK TaskA {
+        PRIORITY = 2;
+        AUTOSTART = FALSE; // Will be started by its alarm
+        ACTIVATION = 1;
+        SCHEDULE = FULL;
+    };
+
+    TASK TaskB {
+        PRIORITY = 1;
+        AUTOSTART = FALSE;
+        ACTIVATION = 1;
+        SCHEDULE = FULL;
+    };
+
+    TASK StopTask {
+        PRIORITY = 10; // High priority to ensure it runs
+        AUTOSTART = FALSE;
+        ACTIVATION = 1;
+        SCHEDULE = FULL;
+    };
+
+    // Counter for alarms
+    COUNTER SystemCounter {};
+
+    // Alarms to activate tasks
+    ALARM AlarmTaskA {
+        COUNTER = SystemCounter;
+        ACTION = ACTIVATETASK { TASK = TaskA; };
+        AUTOSTART = TRUE {
+            ALARMTIME = 0; // Starts immediately
+            CYCLETIME = 500; // Period of 500 msec
+            APPMODE = stdAppmode;
+        };
+    };
+
+    ALARM AlarmTaskB {
+        COUNTER = SystemCounter;
+        ACTION = ACTIVATETASK { TASK = TaskB; };
+        AUTOSTART = TRUE {
+            ALARMTIME = 1500; // First activation at 1500 msec
+            CYCLETIME = 750; // Period of 750 msec
+            APPMODE = stdAppmode;
+        };
+    };
+
+    ALARM AlarmStop {
+        COUNTER = SystemCounter;
+        ACTION = ACTIVATETASK { TASK = StopTask; };
+        AUTOSTART = TRUE {
+            ALARMTIME = 6000; // One-shot alarm at 6000 msec
+            CYCLETIME = 0;
+            APPMODE = stdAppmode;
+        };
+    };
+};
