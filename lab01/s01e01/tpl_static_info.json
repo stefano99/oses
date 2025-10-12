@@ -7,34 +7,12 @@
       "ACTION" : "ACTIVATETASK",
       "ACTION_S" : 
       {
-        "TASK" : "StopTask"
-      },
-      "AUTOSTART" : "true",
-      "AUTOSTART_S" : 
-      {
-        "ALARMTIME" : 6000,
-        "APPMODE" : 
-        [
-          
-          {
-            "VALUE" : "stdAppmode"
-          }
-        ],
-        "CYCLETIME" : 0
-      },
-      "COUNTER" : "SystemCounter",
-      "NAME" : "AlarmStop"
-    },    
-    {
-      "ACTION" : "ACTIVATETASK",
-      "ACTION_S" : 
-      {
         "TASK" : "TaskA"
       },
       "AUTOSTART" : "true",
       "AUTOSTART_S" : 
       {
-        "ALARMTIME" : 0,
+        "ALARMTIME" : 50,
         "APPMODE" : 
         [
           
@@ -42,10 +20,10 @@
             "VALUE" : "stdAppmode"
           }
         ],
-        "CYCLETIME" : 500
+        "CYCLETIME" : 50
       },
       "COUNTER" : "SystemCounter",
-      "NAME" : "AlarmTaskA"
+      "NAME" : "a500msec"
     },    
     {
       "ACTION" : "ACTIVATETASK",
@@ -56,7 +34,7 @@
       "AUTOSTART" : "true",
       "AUTOSTART_S" : 
       {
-        "ALARMTIME" : 1500,
+        "ALARMTIME" : 150,
         "APPMODE" : 
         [
           
@@ -64,10 +42,32 @@
             "VALUE" : "stdAppmode"
           }
         ],
-        "CYCLETIME" : 750
+        "CYCLETIME" : 75
       },
       "COUNTER" : "SystemCounter",
-      "NAME" : "AlarmTaskB"
+      "NAME" : "a750msec"
+    },    
+    {
+      "ACTION" : "ACTIVATETASK",
+      "ACTION_S" : 
+      {
+        "TASK" : "stop"
+      },
+      "AUTOSTART" : "true",
+      "AUTOSTART_S" : 
+      {
+        "ALARMTIME" : 600,
+        "APPMODE" : 
+        [
+          
+          {
+            "VALUE" : "stdAppmode"
+          }
+        ],
+        "CYCLETIME" : 0
+      },
+      "COUNTER" : "SystemCounter",
+      "NAME" : "stopper"
     }
   ],
   "event" : [],
@@ -91,7 +91,17 @@
     },    
     {
       "ACTIVATION" : 1,
-      "AUTOSTART" : "false",
+      "AUTOSTART" : "true",
+      "AUTOSTART_S" : 
+      {
+        "APPMODE" : 
+        [
+          
+          {
+            "VALUE" : "stdAppmode"
+          }
+        ]
+      },
       "KIND" : "Task",
       "NAME" : "TaskA",
       "NONPREEMPTABLE" : "false",
@@ -104,7 +114,7 @@
       "ACTIVATION" : 1,
       "AUTOSTART" : "false",
       "KIND" : "Task",
-      "NAME" : "StopTask",
+      "NAME" : "stop",
       "NONPREEMPTABLE" : "false",
       "PRIORITY" : 3,
       "SCHEDULE" : "FULL",

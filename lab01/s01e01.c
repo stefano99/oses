@@ -1,34 +1,29 @@
-// s01e01.c
-#include "tpl_os.h"
+#include <math.h>
 #include <stdio.h>
 
-// Declare global counters for the tasks
-int counter_a = 0;
-int counter_b = 1500;
-
+#include "tpl_os.h"
 int main(void) {
-    printf("--- Starting OS ---\n");
     StartOS(OSDEFAULTAPPMODE);
     return 0;
 }
-
-// Task A implementation
+DeclareAlarm(a500msec);
+DeclareAlarm(a750msec);
 TASK(TaskA) {
-    printf("Task A activates. Counter = %d\n", counter_a);
-    counter_a += 500;
+    static unsigned int counterA = 0;
+    printf("CounterA=%u\r\n", counterA);
+	counterA += 500;
     TerminateTask();
 }
-
-// Task B implementation
 TASK(TaskB) {
-    printf("Task B activates. Counter = %d\n", counter_b);
-    counter_b += 750;
+    static unsigned int counterB = 1500;
+    printf("CounterB=%u\r\n", counterB);
+	counterB +=750;
     TerminateTask();
 }
-
-// StopTask implementation
-TASK(StopTask) {
-    printf("--- 6000ms elapsed. Shutting down. ---\n");
+TASK(stop) {
+    CancelAlarm(a500msec);
+    CancelAlarm(a750msec);
+    printf("Shutdown\r\n");
     ShutdownOS(E_OK);
     TerminateTask();
 }

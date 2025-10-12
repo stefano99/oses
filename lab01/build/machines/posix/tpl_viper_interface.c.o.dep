@@ -2,7 +2,7 @@ build/machines/posix/tpl_viper_interface.c.o: \
  /root/trampoline/machines/posix/tpl_viper_interface.c \
  /usr/include/stdc-predef.h \
  /root/trampoline/machines/posix/tpl_viper_interface.h \
- /root/trampoline/viper/viper.h /usr/include/unistd.h \
+ /root/trampoline/machines/../viper/viper.h /usr/include/unistd.h \
  /usr/include/features.h /usr/include/features-time64.h \
  /usr/include/x86_64-linux-gnu/bits/wordsize.h \
  /usr/include/x86_64-linux-gnu/bits/timesize.h \
@@ -85,7 +85,7 @@ build/machines/posix/tpl_viper_interface.c.o: \
  /root/trampoline/os/tpl_config_check.h
 /usr/include/stdc-predef.h:
 /root/trampoline/machines/posix/tpl_viper_interface.h:
-/root/trampoline/viper/viper.h:
+/root/trampoline/machines/../viper/viper.h:
 /usr/include/unistd.h:
 /usr/include/features.h:
 /usr/include/features-time64.h:
