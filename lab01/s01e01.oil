@@ -11,51 +11,73 @@ IMPLEMENTATION trampoline {
     };
 };
 
+// CPU configuration block
 CPU only_one_periodic_task {
     OS config {
-        STATUS = EXTENDED;
-        TRACE = TRUE {
-            FORMAT = json;
-            PROC = TRUE;
-            RESOURCE = TRUE;
-            ALARM = TRUE;
-            EVENT = TRUE;
+        STATUS = EXTENDED; //enables advanced features
+        TRACE = TRUE { //logging enabled
+            FORMAT = json; //logging file format
+            PROC = TRUE; //tracks the task events
+            RESOURCE = TRUE; //tracks the resource usage events
+            ALARM = TRUE; //tracks the alarm events
+            EVENT = TRUE; //tracks the actions related to events
         };
-        BUILD = TRUE {
-            APP_SRC = "s01e01.c";
-            TRAMPOLINE_BASE_PATH = "/root/trampoline";
-            CFLAGS = "-ggdb";
-            APP_NAME = "ex1_exe";
-            LINKER = "gcc";
-            SYSTEM = PYTHON;
+        BUILD = TRUE { //build configurations
+            APP_SRC = "s01e01.c"; //source file 
+            TRAMPOLINE_BASE_PATH = "/root/trampoline"; //trampoline path. ABSOLUTE PATH PLS
+            CFLAGS = "-ggdb"; //compiler flags, debug enabled
+            APP_NAME = "s01e01_exe"; //executable file name
+            LINKER = "gcc"; //linker
+            SYSTEM = PYTHON; //python scripts used to build
         };
     };
 
-    APPMODE stdAppmode {};
+    //that's the OSDEFAULTAPPMODE
+    APPMODE stdAppmode {}; //used to control alarms/tasks/resources that are started or enabled at OS startup
 
     ALARM a500msec {
-        COUNTER = SystemCounter;
-        ACTION = ACTIVATETASK { TASK = TaskA; };
-        AUTOSTART = TRUE { APPMODE = stdAppmode; ALARMTIME = 50; CYCLETIME = 50; };
+        COUNTER = SystemCounter; //uses system counter for alarm
+        ACTION = ACTIVATETASK { 
+            TASK = TaskA; //when alarm expires, TaskA is activated
+            }; 
+        AUTOSTART = TRUE { 
+            APPMODE = stdAppmode; //alarm starts automatically in stdAppmode
+            ALARMTIME = 50; //first alarm expiration happens at 50 ticks
+            CYCLETIME = 50; //repeats every 50 ticks
+            };
     };
 
     ALARM a750msec {
         COUNTER = SystemCounter;
-        ACTION = ACTIVATETASK { TASK = TaskB; };
-        AUTOSTART = TRUE { APPMODE = stdAppmode; ALARMTIME = 150; CYCLETIME = 75; };
+        ACTION = ACTIVATETASK { 
+            TASK = TaskB; 
+            };
+        AUTOSTART = TRUE { 
+            APPMODE = stdAppmode; 
+            ALARMTIME = 150;
+            CYCLETIME = 75; 
+            };
     };
 
     ALARM stopper {
         COUNTER = SystemCounter;
-        ACTION = ACTIVATETASK { TASK = stop; };
-        AUTOSTART = TRUE { APPMODE = stdAppmode; ALARMTIME = 600; CYCLETIME = 0; };
+        ACTION = ACTIVATETASK { 
+            TASK = stop; 
+            };
+        AUTOSTART = TRUE { 
+            APPMODE = stdAppmode; 
+            ALARMTIME = 600; 
+            CYCLETIME = 0; 
+            };
     };
 
     TASK TaskA {
-        PRIORITY = 2;
-        AUTOSTART = TRUE { APPMODE = stdAppmode; };
-        ACTIVATION = 1;
-        SCHEDULE = FULL;
+        PRIORITY = 2; //priority value, lower value means higher priority
+        AUTOSTART = TRUE { //autostart enabled
+            APPMODE = stdAppmode; //autostarts during stdAppmode
+            };
+        ACTIVATION = 1; //only 1 concurrent activation before terminating
+        SCHEDULE = FULL; //fully preemptive
     };
 
     TASK TaskB {

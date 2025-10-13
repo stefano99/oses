@@ -1,0 +1,101 @@
+OIL_VERSION = "2.5";
+
+IMPLEMENTATION trampoline {
+    /* This fix the default STACKSIZE of tasks */
+    TASK {
+        UINT32 STACKSIZE = 256;
+    };
+    /* This fix the default STACKSIZE of ISRs */
+    ISR {
+        UINT32 STACKSIZE = 256;
+    };
+};
+
+// CPU configuration block
+CPU only_one_periodic_task {
+    OS config {
+        STATUS = STANDARD; //enables advanced features
+        // TRACE = TRUE { //logging enabled
+        //     FORMAT = json; //logging file format
+        //     PROC = TRUE; //tracks the task events
+        //     RESOURCE = TRUE; //tracks the resource usage events
+        //     ALARM = TRUE; //tracks the alarm events
+        //     EVENT = TRUE; //tracks the actions related to events
+        // };
+        BUILD = TRUE { //build configurations
+            APP_SRC = "s01e02.cpp"; //source file 
+            TRAMPOLINE_BASE_PATH = "/root/trampoline"; //trampoline path. ABSOLUTE PATH PLS
+            CFLAGS = "-ggdb"; //compiler flags, debug enabled
+            APP_NAME = "s01e02_exe"; //executable file name
+            CPPCOMPILER = "avr-g++";
+            COMPILER = "avr-gcc";
+            LINKER = "avr-gcc";
+            ASSEMBLER = "avr-gcc"; 
+            COPIER = "avr-objcopy"; //for hex file generation
+            SYSTEM = PYTHON; //python scripts used to build
+        };
+        SYSTEM_CALL = TRUE; 
+    };
+
+    //that's the OSDEFAULTAPPMODE
+    APPMODE stdAppmode {}; //used to control alarms/tasks/resources that are started or enabled at OS startup
+
+    ALARM a500msec {
+        COUNTER = SystemCounter; //uses system counter for alarm
+        ACTION = ACTIVATETASK { 
+            TASK = TaskA; //when alarm expires, TaskA is activated
+            }; 
+        AUTOSTART = TRUE { 
+            APPMODE = stdAppmode; //alarm starts automatically in stdAppmode
+            ALARMTIME = 500; //first alarm expiration happens at 50 ticks
+            CYCLETIME = 500; //repeats every 50 ticks
+            };
+    };
+
+    ALARM a750msec {
+        COUNTER = SystemCounter;
+        ACTION = ACTIVATETASK { 
+            TASK = TaskB; 
+            };
+        AUTOSTART = TRUE { 
+            APPMODE = stdAppmode; 
+            ALARMTIME = 1500;
+            CYCLETIME = 750; 
+            };
+    };
+
+    ALARM stopper {
+        COUNTER = SystemCounter;
+        ACTION = ACTIVATETASK { 
+            TASK = stop; 
+            };
+        AUTOSTART = TRUE { 
+            APPMODE = stdAppmode; 
+            ALARMTIME = 6000; 
+            CYCLETIME = 0; 
+            };
+    };
+
+    TASK TaskA {
+        PRIORITY = 2; //priority value, lower value means higher priority
+        AUTOSTART = TRUE { //autostart enabled
+            APPMODE = stdAppmode; //autostarts during stdAppmode
+            };
+        ACTIVATION = 1; //only 1 concurrent activation before terminating
+        SCHEDULE = FULL; //fully preemptive
+    };
+
+    TASK TaskB {
+        PRIORITY = 1;
+        AUTOSTART = FALSE;
+        ACTIVATION = 1;
+        SCHEDULE = FULL;
+    };
+
+    TASK stop {
+        PRIORITY = 99;
+        AUTOSTART = FALSE;
+        ACTIVATION = 1;
+        SCHEDULE = FULL;
+    };
+};
