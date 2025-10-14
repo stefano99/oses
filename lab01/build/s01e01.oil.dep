@@ -1,9 +1,8 @@
-s01e02.oil: \
+s01e01.oil: \
  /root/trampoline/goil/templates/config/config.oil \
  /root/trampoline/goil/templates/config/kernel.oil \
  /root/trampoline/goil/templates/config/api.oil \
  /root/trampoline/goil/templates/config/api_ioc.oil \
- /root/trampoline/goil/templates/config/avr/config.oil \
- /root/trampoline/goil/templates/config/avr/arduino/config.oil \
- /root/trampoline/goil/templates/config/avr/arduino/uno/config.oil \
+ /root/trampoline/goil/templates/config/posix/config.oil \
+ /root/trampoline/goil/templates/config/posix/linux/config.oil \
  /root/trampoline/goil/templates/config/config2.5.oil

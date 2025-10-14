@@ -54,8 +54,8 @@ CONST(tpl_application_mode, OS_CONST) stdAppmode = 0; /* mask = 1 */
 CONST(tpl_application_mode, OS_CONST) OSDEFAULTAPPMODE = 0;
 CONST(tpl_appmode_mask, OS_CONST) tpl_task_app_mode[TASK_COUNT] = {
   0 /* task TaskB :  */ ,
-  1 /* task TaskA : stdAppmode */ ,
-  0 /* task stop :  */ 
+  0 /* task stop :  */ ,
+  1 /* task TaskA : stdAppmode */ 
 };
 
 CONST(tpl_appmode_mask, OS_CONST) tpl_alarm_app_mode[ALARM_COUNT] = {
@@ -75,13 +75,13 @@ CONST(tpl_appmode_mask, OS_CONST) tpl_alarm_app_mode[ALARM_COUNT] = {
 #define TaskB_id 0
 CONST(TaskType, AUTOMATIC) TaskB = TaskB_id;
 
-/* Task TaskA identifier */
-#define TaskA_id 1
-CONST(TaskType, AUTOMATIC) TaskA = TaskA_id;
-
 /* Task stop identifier */
-#define stop_id 2
+#define stop_id 1
 CONST(TaskType, AUTOMATIC) stop = stop_id;
+
+/* Task TaskA identifier */
+#define TaskA_id 2
+CONST(TaskType, AUTOMATIC) TaskA = TaskA_id;
 
 /*=============================================================================
  * Declaration of Alarm IDs
@@ -411,6 +411,111 @@ VAR(tpl_proc, OS_VAR) TaskB_task_desc = {
 #include "tpl_memmap.h"
 
 /*-----------------------------------------------------------------------------
+ * Task stop descriptor
+ */
+#define APP_Task_stop_START_SEC_CODE
+
+#include "tpl_memmap.h"
+/*
+ * Task stop function prototype
+ */
+
+FUNC(void, OS_APPL_CODE) stop_function(void);
+#define APP_Task_stop_STOP_SEC_CODE
+
+#include "tpl_memmap.h"
+
+/*-----------------------------------------------------------------------------
+ * Target specific structures
+ */
+/*
+ * Task stop stack
+ */
+#define APP_Task_stop_START_SEC_STACK
+#include "tpl_memmap.h"
+tpl_stack_word stop_stack_zone[32768/sizeof(tpl_stack_word)];
+#define APP_Task_stop_STOP_SEC_STACK
+#include "tpl_memmap.h"
+
+#define OS_START_SEC_CONST_UNSPECIFIED
+#include "tpl_memmap.h"
+struct TPL_STACK stop_stack = {stop_stack_zone, 32768};
+#define OS_STOP_SEC_CONST_UNSPECIFIED
+#include "tpl_memmap.h"
+
+#define stop_STACK &stop_stack
+
+/*
+ * Task stop context
+ */
+#define OS_START_SEC_VAR_UNSPECIFIED
+#include "tpl_memmap.h"
+struct TPL_CONTEXT stop_context;
+#define OS_STOP_SEC_VAR_UNSPECIFIED
+#include "tpl_memmap.h"
+
+#define stop_CONTEXT &stop_context
+
+
+
+
+
+/*
+  No timing protection
+ */
+
+#define OS_START_SEC_CONST_UNSPECIFIED
+#include "tpl_memmap.h"
+
+
+/*
+ * Static descriptor of task stop
+ */
+CONST(tpl_proc_static, OS_CONST) stop_task_stat_desc = {
+  /* context                  */  stop_CONTEXT,
+  /* stack                    */  stop_STACK,
+  /* entry point (function)   */  stop_function,
+  /* internal ressource       */  NULL,
+  /* task id                  */  stop_id,
+#if WITH_OSAPPLICATION == YES
+  /* OS application id        */  
+#endif
+  /* task base priority       */  1,
+  /* max activation count     */  1,
+  /* task type                */  TASK_BASIC,
+#if WITH_AUTOSAR_TIMING_PROTECTION == YES
+
+  /* execution budget */        0,
+  /* timeframe        */        0, 
+  /* pointer to the timing
+     protection descriptor    */ NULL
+
+#endif
+};
+
+#define OS_STOP_SEC_CONST_UNSPECIFIED
+#include "tpl_memmap.h"
+
+
+#define OS_START_SEC_VAR_UNSPECIFIED
+#include "tpl_memmap.h"
+/*
+ * Dynamic descriptor of task stop
+ */
+VAR(tpl_proc, OS_VAR) stop_task_desc = {
+  /* resources                      */  NULL,
+#if WITH_OSAPPLICATION == YES
+  /* if > 0 the process is trusted  */  0,    
+#endif /* WITH_OSAPPLICATION */
+  /* activate count                 */  0,
+  /* task priority                  */  1,
+  /* task state                     */  SUSPENDED
+};
+
+#define OS_STOP_SEC_VAR_UNSPECIFIED
+#include "tpl_memmap.h"
+
+/*-----------------------------------------------------------------------------
  * Task TaskA descriptor
  */
 #define APP_Task_TaskA_START_SEC_CODE
@@ -515,111 +620,6 @@ VAR(tpl_proc, OS_VAR) TaskA_task_desc = {
 #define OS_STOP_SEC_VAR_UNSPECIFIED
 #include "tpl_memmap.h"
 
-/*-----------------------------------------------------------------------------
- * Task stop descriptor
- */
-#define APP_Task_stop_START_SEC_CODE
-
-#include "tpl_memmap.h"
-/*
- * Task stop function prototype
- */
-
-FUNC(void, OS_APPL_CODE) stop_function(void);
-#define APP_Task_stop_STOP_SEC_CODE
-
-#include "tpl_memmap.h"
-
-/*-----------------------------------------------------------------------------
- * Target specific structures
- */
-/*
- * Task stop stack
- */
-#define APP_Task_stop_START_SEC_STACK
-#include "tpl_memmap.h"
-tpl_stack_word stop_stack_zone[32768/sizeof(tpl_stack_word)];
-#define APP_Task_stop_STOP_SEC_STACK
-#include "tpl_memmap.h"
-
-#define OS_START_SEC_CONST_UNSPECIFIED
-#include "tpl_memmap.h"
-struct TPL_STACK stop_stack = {stop_stack_zone, 32768};
-#define OS_STOP_SEC_CONST_UNSPECIFIED
-#include "tpl_memmap.h"
-
-#define stop_STACK &stop_stack
-
-/*
- * Task stop context
- */
-#define OS_START_SEC_VAR_UNSPECIFIED
-#include "tpl_memmap.h"
-struct TPL_CONTEXT stop_context;
-#define OS_STOP_SEC_VAR_UNSPECIFIED
-#include "tpl_memmap.h"
-
-#define stop_CONTEXT &stop_context
-
-
-
-
-
-/*
-  No timing protection
- */
-
-#define OS_START_SEC_CONST_UNSPECIFIED
-#include "tpl_memmap.h"
-
-
-/*
- * Static descriptor of task stop
- */
-CONST(tpl_proc_static, OS_CONST) stop_task_stat_desc = {
-  /* context                  */  stop_CONTEXT,
-  /* stack                    */  stop_STACK,
-  /* entry point (function)   */  stop_function,
-  /* internal ressource       */  NULL,
-  /* task id                  */  stop_id,
-#if WITH_OSAPPLICATION == YES
-  /* OS application id        */  
-#endif
-  /* task base priority       */  3,
-  /* max activation count     */  1,
-  /* task type                */  TASK_BASIC,
-#if WITH_AUTOSAR_TIMING_PROTECTION == YES
-
-  /* execution budget */        0,
-  /* timeframe        */        0, 
-  /* pointer to the timing
-     protection descriptor    */ NULL
-
-#endif
-};
-
-#define OS_STOP_SEC_CONST_UNSPECIFIED
-#include "tpl_memmap.h"
-
-
-#define OS_START_SEC_VAR_UNSPECIFIED
-#include "tpl_memmap.h"
-/*
- * Dynamic descriptor of task stop
- */
-VAR(tpl_proc, OS_VAR) stop_task_desc = {
-  /* resources                      */  NULL,
-#if WITH_OSAPPLICATION == YES
-  /* if > 0 the process is trusted  */  0,    
-#endif /* WITH_OSAPPLICATION */
-  /* activate count                 */  0,
-  /* task priority                  */  3,
-  /* task state                     */  SUSPENDED
-};
-
-#define OS_STOP_SEC_VAR_UNSPECIFIED
-#include "tpl_memmap.h"
-
 
 #define OS_START_SEC_CONST_UNSPECIFIED
 #include "tpl_memmap.h"
@@ -629,16 +629,16 @@ VAR(tpl_proc, OS_VAR) stop_task_desc = {
 CONSTP2CONST(tpl_proc_static, AUTOMATIC, OS_APPL_DATA)
 tpl_stat_proc_table[TASK_COUNT+ISR_COUNT+1] = {
   &TaskB_task_stat_desc,
-  &TaskA_task_stat_desc,
   &stop_task_stat_desc,
+  &TaskA_task_stat_desc,
   &IDLE_TASK_task_stat_desc
 };
 
 CONSTP2VAR(tpl_proc, AUTOMATIC, OS_APPL_DATA)
 tpl_dyn_proc_table[TASK_COUNT+ISR_COUNT+1] = {
   &TaskB_task_desc,
-  &TaskA_task_desc,
   &stop_task_desc,
+  &TaskA_task_desc,
   &IDLE_TASK_task_desc
 };
 
@@ -840,8 +840,7 @@ CONSTP2VAR(tpl_time_obj, AUTOMATIC, OS_APPL_DATA)
 #include "tpl_memmap.h"
 
 VAR(tpl_heap_entry, OS_VAR) tpl_ready_list[5];
-VAR(tpl_rank_count, OS_VAR) tpl_tail_for_prio[5] = {
-  0,
+VAR(tpl_rank_count, OS_VAR) tpl_tail_for_prio[4] = {
   0,
   0,
   0
@@ -883,8 +882,8 @@ VAR(tpl_kern_state, OS_VAR) tpl_kern =
 CONSTP2CONST(char, AUTOMATIC, OS_APPL_DATA) proc_name_table[TASK_COUNT + ISR_COUNT + 1] = {
 
   "TaskB",
-  "TaskA",
   "stop",
+  "TaskA",
   "*idle*"
 };
 #define API_STOP_SEC_CONST_UNSPECIFIED

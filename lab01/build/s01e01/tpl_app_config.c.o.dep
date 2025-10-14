@@ -1,7 +1,6 @@
-build/os/tpl_os_action.c.o: /root/trampoline/os/tpl_os_action.c \
- /usr/include/stdc-predef.h /root/trampoline/os/tpl_os_action.h \
- /root/trampoline/os/tpl_os_internal_types.h \
- /root/trampoline/machines/posix/tpl_os_std_types.h \
+build/s01e01/tpl_app_config.c.o: s01e01/tpl_app_config.c \
+ /usr/include/stdc-predef.h \
+ /usr/lib/gcc/x86_64-linux-gnu/13/include/stdbool.h \
  /usr/lib/gcc/x86_64-linux-gnu/13/include/stdint.h /usr/include/stdint.h \
  /usr/include/x86_64-linux-gnu/bits/libc-header-start.h \
  /usr/include/features.h /usr/include/features-time64.h \
@@ -18,11 +17,15 @@ build/os/tpl_os_action.c.o: /root/trampoline/os/tpl_os_action.c \
  /usr/include/x86_64-linux-gnu/bits/stdint-intn.h \
  /usr/include/x86_64-linux-gnu/bits/stdint-uintn.h \
  /usr/include/x86_64-linux-gnu/bits/stdint-least.h \
- /root/trampoline/os/tpl_os_custom_types.h \
- /root/trampoline/os/tpl_os_application_def.h s01e01/tpl_app_define.h \
+ s01e01/tpl_app_config.h s01e01/tpl_app_define.h \
  /root/trampoline/os/tpl_config_def.h \
- /root/trampoline/os/tpl_config_check.h s01e01/tpl_app_custom_types.h \
- /root/trampoline/os/tpl_compiler.h \
+ /root/trampoline/os/tpl_config_check.h \
+ /root/trampoline/os/tpl_compiler.h s01e01/tpl_app_define.h \
+ /root/trampoline/os/tpl_os_internal_types.h \
+ /root/trampoline/machines/posix/tpl_os_std_types.h \
+ /root/trampoline/os/tpl_os_custom_types.h \
+ /root/trampoline/os/tpl_os_application_def.h \
+ s01e01/tpl_app_custom_types.h \
  /root/trampoline/machines/posix/tpl_machine.h /usr/include/setjmp.h \
  /usr/include/x86_64-linux-gnu/bits/setjmp.h \
  /usr/include/x86_64-linux-gnu/bits/types/struct___jmp_buf_tag.h \
@@ -67,19 +70,29 @@ build/os/tpl_os_action.c.o: /root/trampoline/os/tpl_os_action.c \
  /usr/include/x86_64-linux-gnu/bits/getopt_core.h \
  /usr/include/x86_64-linux-gnu/bits/unistd_ext.h \
  /root/trampoline/os/tpl_os_custom_types.h \
- /root/trampoline/os/tpl_compiler.h \
- /root/trampoline/os/tpl_os_task_kernel.h \
+ /root/trampoline/os/tpl_compiler.h /root/trampoline/os/tpl_memmap.h \
+ /root/trampoline/os/tpl_os_interrupt.h \
+ /root/trampoline/os/tpl_os_types.h \
+ /root/trampoline/os/tpl_os_internal_types.h \
+ /root/trampoline/os/tpl_os_interrupt_kernel.h \
  /root/trampoline/os/tpl_os_kernel.h \
  /root/trampoline/os/tpl_os_multicore_macros.h \
  /root/trampoline/os/tpl_memmap.h \
+ /root/trampoline/os/tpl_os_alarm_kernel.h \
+ /root/trampoline/os/tpl_os_timeobj_kernel.h \
+ /root/trampoline/os/tpl_os_action.h \
+ /root/trampoline/os/tpl_os_task_kernel.h \
+ /root/trampoline/os/tpl_os_alarm.h \
+ /root/trampoline/os/tpl_os_resource_kernel.h \
+ /root/trampoline/os/tpl_os_resource.h \
+ /root/trampoline/os/tpl_os_event_kernel.h \
+ /root/trampoline/os/tpl_os_event.h /root/trampoline/os/tpl_os_action.h \
+ /root/trampoline/os/tpl_os_kernel.h \
  /root/trampoline/os/tpl_os_definitions.h \
- /root/trampoline/os/tpl_os_error.h /root/trampoline/os/tpl_os_types.h \
- /root/trampoline/os/tpl_os_errorhook.h \
- /root/trampoline/os/tpl_os_event_kernel.h
+ /root/trampoline/os/tpl_os_timeobj_kernel.h \
+ /root/trampoline/os/tpl_machine_interface.h
 /usr/include/stdc-predef.h:
-/root/trampoline/os/tpl_os_action.h:
-/root/trampoline/os/tpl_os_internal_types.h:
-/root/trampoline/machines/posix/tpl_os_std_types.h:
+/usr/lib/gcc/x86_64-linux-gnu/13/include/stdbool.h:
 /usr/lib/gcc/x86_64-linux-gnu/13/include/stdint.h:
 /usr/include/stdint.h:
 /usr/include/x86_64-linux-gnu/bits/libc-header-start.h:
@@ -98,13 +111,17 @@ build/os/tpl_os_action.c.o: /root/trampoline/os/tpl_os_action.c \
 /usr/include/x86_64-linux-gnu/bits/stdint-intn.h:
 /usr/include/x86_64-linux-gnu/bits/stdint-uintn.h:
 /usr/include/x86_64-linux-gnu/bits/stdint-least.h:
-/root/trampoline/os/tpl_os_custom_types.h:
-/root/trampoline/os/tpl_os_application_def.h:
+s01e01/tpl_app_config.h:
 s01e01/tpl_app_define.h:
 /root/trampoline/os/tpl_config_def.h:
 /root/trampoline/os/tpl_config_check.h:
-s01e01/tpl_app_custom_types.h:
 /root/trampoline/os/tpl_compiler.h:
+s01e01/tpl_app_define.h:
+/root/trampoline/os/tpl_os_internal_types.h:
+/root/trampoline/machines/posix/tpl_os_std_types.h:
+/root/trampoline/os/tpl_os_custom_types.h:
+/root/trampoline/os/tpl_os_application_def.h:
+s01e01/tpl_app_custom_types.h:
 /root/trampoline/machines/posix/tpl_machine.h:
 /usr/include/setjmp.h:
 /usr/include/x86_64-linux-gnu/bits/setjmp.h:
@@ -152,12 +169,25 @@ s01e01/tpl_app_custom_types.h:
 /usr/include/x86_64-linux-gnu/bits/unistd_ext.h:
 /root/trampoline/os/tpl_os_custom_types.h:
 /root/trampoline/os/tpl_compiler.h:
-/root/trampoline/os/tpl_os_task_kernel.h:
+/root/trampoline/os/tpl_memmap.h:
+/root/trampoline/os/tpl_os_interrupt.h:
+/root/trampoline/os/tpl_os_types.h:
+/root/trampoline/os/tpl_os_internal_types.h:
+/root/trampoline/os/tpl_os_interrupt_kernel.h:
 /root/trampoline/os/tpl_os_kernel.h:
 /root/trampoline/os/tpl_os_multicore_macros.h:
 /root/trampoline/os/tpl_memmap.h:
-/root/trampoline/os/tpl_os_definitions.h:
-/root/trampoline/os/tpl_os_error.h:
-/root/trampoline/os/tpl_os_types.h:
-/root/trampoline/os/tpl_os_errorhook.h:
+/root/trampoline/os/tpl_os_alarm_kernel.h:
+/root/trampoline/os/tpl_os_timeobj_kernel.h:
+/root/trampoline/os/tpl_os_action.h:
+/root/trampoline/os/tpl_os_task_kernel.h:
+/root/trampoline/os/tpl_os_alarm.h:
+/root/trampoline/os/tpl_os_resource_kernel.h:
+/root/trampoline/os/tpl_os_resource.h:
 /root/trampoline/os/tpl_os_event_kernel.h:
+/root/trampoline/os/tpl_os_event.h:
+/root/trampoline/os/tpl_os_action.h:
+/root/trampoline/os/tpl_os_kernel.h:
+/root/trampoline/os/tpl_os_definitions.h:
+/root/trampoline/os/tpl_os_timeobj_kernel.h:
+/root/trampoline/os/tpl_machine_interface.h:

@@ -72,7 +72,7 @@ CPU only_one_periodic_task {
     };
 
     TASK TaskA {
-        PRIORITY = 2; //priority value, lower value means higher priority
+        PRIORITY = 2; //priority value, higher value means higher priority
         AUTOSTART = TRUE { //autostart enabled
             APPMODE = stdAppmode; //autostarts during stdAppmode
             };

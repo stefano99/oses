@@ -1,7 +1,0 @@
-build/machines/avr/arduino/cores/arduino/WMath.cpp.o: \
- /root/trampoline/machines/avr/arduino/cores/arduino/WMath.cpp \
- /usr/lib/avr/include/stdlib.h /usr/lib/gcc/avr/7.3.0/include/stddef.h
-
-/usr/lib/avr/include/stdlib.h:
-
-/usr/lib/gcc/avr/7.3.0/include/stddef.h:
