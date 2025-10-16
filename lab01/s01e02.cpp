@@ -4,10 +4,6 @@
 #include "tpl_os.h"
 #include "Arduino.h"
 
-// int main(void) {
-//     StartOS(OSDEFAULTAPPMODE);
-//     return 0;
-// }
 void setup()
 {
 	// initialize digital pin 13 as an output.

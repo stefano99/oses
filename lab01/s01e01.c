@@ -17,7 +17,6 @@ TASK(TaskA) {
 TASK(TaskB) {
     static unsigned int counterB = 1500;
     printf("CounterB=%u\r\n", counterB);
-    sleep(1000); // Sleep for 1 second
 	counterB +=750;
     TerminateTask();
 }
@@ -27,9 +26,4 @@ TASK(stop) {
     printf("Shutdown\r\n");
     ShutdownOS(E_OK);
     TerminateTask();
-}
-
-// TaskB prints after TaskA even if it has higher priority because TaskA is autostarted, 
-// so its timer starts before TaskB is started (while other operations are run)
-// so when it's time to run TaskB concurrently to TaskA, TaskA is already running, 
-// but not for enough time to preempt it.
+} 
